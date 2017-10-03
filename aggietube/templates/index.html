@@ -8,7 +8,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>New Age - Start Bootstrap Theme</title>
+    <title>AggieTube</title>
 
     <!-- Bootstrap core CSS -->
     <link href="../static/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
@@ -27,13 +27,119 @@
     <link href="../static/css/new-age.min.css" rel="stylesheet">
 
   </head>
+  <style>
+      input[type=text], input[type=password] {
+    width: 100%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+}
+    /* Set a style for all buttons */
+    button {
+        background-color: #e0a800;
+        color: white;
+        padding: 14px 20px;
+        margin: 8px 0;
+        border: none;
+        cursor: pointer;
+        width: 100%;
+    }
+    button:hover {
+        opacity: 0.8;
+    }
+      /* Extra styles for the cancel button */
+    .cancelbtn {
+        width: auto;
+        padding: 10px 18px;
+        background-color: #3b5998;
+    }
+    .container {
+        padding: 16px;
+    }
+
+    span.psw {
+        float: right;
+        padding-top: 16px;
+    }
+
+    /* The Modal (background) */
+    .modal {
+        display: none; /* Hidden by default */
+        position: fixed; /* Stay in place */
+        z-index: 1; /* Sit on top */
+        left: 0;
+        top: 0;
+        width: 100%; /* Full width */
+        height: 100%; /* Full height */
+        overflow: auto; /* Enable scroll if needed */
+        background-color: rgb(0,0,0); /* Fallback color */
+        background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+        padding-top: 60px;
+    }
+
+    /* Modal Content/Box */
+    .modal-content {
+        background-color: #fefefe;
+        margin: 5% auto 15% auto; /* 5% from the top, 15% from the bottom and centered */
+        border: 1px solid #888;
+        width: 80%; /* Could be more or less, depending on screen size */
+    }
+
+    /* The Close Button (x) */
+    .close {
+        position: absolute;
+        right: 25px;
+        top: 0;
+        color: #000;
+        font-size: 35px;
+        font-weight: bold;
+    }
+
+    .close:hover,
+    .close:focus {
+        color: red;
+        cursor: pointer;
+    }
+
+    /* Add Zoom Animation */
+    .animate {
+        -webkit-animation: animatezoom 0.6s;
+        animation: animatezoom 0.6s
+    }
+
+    @-webkit-keyframes animatezoom {
+        from {-webkit-transform: scale(0)}
+        to {-webkit-transform: scale(1)}
+    }
+
+    @keyframes animatezoom {
+        from {transform: scale(0)}
+        to {transform: scale(1)}
+    }
+
+    /* Change styles for span and cancel button on extra small screens */
+    @media screen and (max-width: 300px) {
+        span.psw {
+           display: block;
+            float: none;
+        }
+        .cancelbtn {
+        width: 100%;
+        }
+    }
+  </style>
 
   <body id="page-top">
 
     <!-- Navigation -->
     <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav">
       <div class="container">
-        <a class="navbar-brand js-scroll-trigger" href="#page-top">Start Bootstrap</a>
+
+          <a class="navbar-brand js-scroll-trigger" href="#page-top">
+              <img src="AggietubeLogo.jpg" class="img-fluid" alt="AggieTube" >
+          </a>
         <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
           Menu
           <i class="fa fa-bars"></i>
@@ -59,8 +165,8 @@
         <div class="row h-100">
           <div class="col-lg-7 my-auto">
             <div class="header-content mx-auto">
-              <h1 class="mb-5">New Age is an app landing page that will help you beautifully showcase your new mobile app, or anything else!</h1>
-              <a href="#download" class="btn btn-outline btn-xl js-scroll-trigger">Start Now for Free!</a>
+              <h1 class="mb-5">AggieTube is a web application for searching and storing a users favorite music videos.</h1>
+              <button onclick="document.getElementById('id01').style.display='block'" style="width:auto;">Log in</button>
             </div>
           </div>
           <div class="col-lg-5 my-auto">
@@ -69,10 +175,38 @@
                 <div class="device">
                   <div class="screen">
                     <!-- Demo image for screen mockup, you can put an image here, some HTML, an animation, video, or anything else! -->
-                    <img src="../static/img/demo-screen-1.jpg" class="img-fluid" alt="">
+                    <img src="https://raw.githubusercontent.com/blong1996/Aggie-Tube/master/AggietubeLogo.jpg" class="img-fluid" alt="AggieTube Logo" >
+                     <!-- <img src="../static/img/demo-screen-1.jpg" class="img-fluid" alt=""> -->
                   </div>
-                  <div class="button">
+                  <div id="id01" class="modal">
                     <!-- You can hook the "home button" to some JavaScript events or just remove it -->
+                    <form class="modal-content animate" action="/action_page.php">
+                        <div>
+                            <span onclick="document.getElementById('id01').style.display='none'" class="close" title="Close Modal">&times;</span>
+                        </div>
+                        <div class="container">
+                            <label style="color:black"><b>Email Address</b></label>
+                            <input type="text" placeholder="Enter Email" name="email" required>
+
+                            <label style="color:black"><b>Password</b></label>
+                            <input type="password" placeholder="Enter Password" name="psw" required>
+
+                            <button type="submit">Login</button>
+                            <input type="checkbox" checked="checked"><label style="color:black">Remember me</label>
+                        </div>
+                        <div class="container" style="background-color: #f1f1f1">
+                            <button type="button" onclick="document.getElementById('id01').style.display='none'" class="cancelbtn">Cancel</button>
+                            <span class="psw">Forgot <a href="#">password?</a></span>
+                        </div>
+                    </form>
+                      <script>
+                        var modal = document.getElementById('id01');
+                        window.onclick = function (event) {
+                            if (event.target == modal) {
+                                modal.style.display = "none";
+                            }
+                        }
+                      </script>
                   </div>
                 </div>
               </div>
@@ -82,7 +216,7 @@
       </div>
     </header>
 
-    <section class="download bg-primary text-center" id="download">
+    <!--<section class="download bg-primary text-center" id="download">
       <div class="container">
         <div class="row">
           <div class="col-md-8 mx-auto">
@@ -110,11 +244,11 @@
               <div class="device-mockup iphone6_plus portrait white">
                 <div class="device">
                   <div class="screen">
-                    <!-- Demo image for screen mockup, you can put an image here, some HTML, an animation, video, or anything else! -->
+                    <!-- Demo image for screen mockup, you can put an image here, some HTML, an animation, video, or anything else!
                     <img src="../static/img/demo-screen-1.jpg" class="img-fluid" alt="">
                   </div>
                   <div class="button">
-                    <!-- You can hook the "home button" to some JavaScript events or just remove it -->
+                    <!-- You can hook the "home button" to some JavaScript events or just remove it
                   </div>
                 </div>
               </div>
@@ -193,7 +327,7 @@
           </li>
         </ul>
       </div>
-    </section>
+    </section>-->
 
     <footer>
       <div class="container">
