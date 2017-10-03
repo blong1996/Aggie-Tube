@@ -2,7 +2,7 @@
 
 ## Software Engineering 
 
-###Project Proposal Guideline
+### Project Proposal Guideline
 
 ### Alexis Harrison, Brandon Long, Eston Jeffries
 
