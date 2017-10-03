@@ -1,6 +1,6 @@
 from flask import Flask, render_template, request
 
-from youtube_tutorial.youtube import get_top_vids
+from youtube.youtube import get_top_vids
 
 app = Flask(__name__)
 
