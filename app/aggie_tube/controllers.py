@@ -16,7 +16,7 @@ def home():
     return render_template('index.html', videos=videos)
 
 
-@aggie_tube.route('/<query>', methods=['POST'])
+@aggie_tube.route('/<query>', methods=['GET','POST'])
 def search(query):
     videos = get_top_vids(query)
 
