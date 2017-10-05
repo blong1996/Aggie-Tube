@@ -16,7 +16,7 @@ video_dict = {'youID': [], 'title': [], 'pub_date': []}
 
 
 def get_top_vids(query):
-    search = youtube_search(query, 20)
+    search = youtube_search(query, 50)
     videos = []
 
     for vid in search[1]:

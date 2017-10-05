@@ -1,11 +1,11 @@
-from flask import Flask, render_template, request
+# Import flask dependencies
+from flask import Blueprint, render_template, request
 
 from youtube.youtube import get_top_vids
+aggie_tube = Blueprint('app', __name__)
 
-app = Flask(__name__)
 
-
-@app.route('/', methods=['GET', 'POST'])
+@aggie_tube.route('/', methods=['GET', 'POST'])
 def home():
     if request.method == 'POST':
         videos = get_top_vids(request.form['query'])
@@ -16,12 +16,10 @@ def home():
     return render_template('index.html', videos=videos)
 
 
-@app.route('/<query>', methods=['POST'])
+@aggie_tube.route('/<query>', methods=['POST'])
 def search(query):
     videos = get_top_vids(query)
 
     return render_template('index.html', videos=videos)
 
 
-if __name__ == '__main__':
-    app.run()
