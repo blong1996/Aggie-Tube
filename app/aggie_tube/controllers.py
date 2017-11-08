@@ -2,6 +2,7 @@
 from flask import Blueprint, render_template, request
 
 from youtube.youtube import get_top_vids
+
 aggie_tube = Blueprint('app', __name__)
 
 
@@ -16,10 +17,13 @@ def home():
     return render_template('index.html', videos=videos)
 
 
-@aggie_tube.route('/<query>', methods=['GET','POST'])
+@aggie_tube.route('/<query>', methods=['GET', 'POST'])
 def search(query):
     videos = get_top_vids(query)
 
     return render_template('index.html', videos=videos)
 
 
+@aggie_tube.route('/play/<string:vidId>', methods=['GET'])
+def play_video(vidId):
+    return render_template('play_video.html', vidId=vidId)

@@ -24,7 +24,8 @@ def get_top_vids(query):
             'title': vid['snippet']['title'],
             'thumbnail': vid['snippet']['thumbnails']['high']['url'],
             'channel': vid['snippet']['channelTitle'],
-            'url': 'https://www.youtube.com/watch?v=' + vid['id']['videoId']
+            'url': 'https://www.youtube.com/watch?v=' + vid['id']['videoId'],
+            'id': vid['id']['videoId']
         }
         videos.append(vid_dic)
     return videos
