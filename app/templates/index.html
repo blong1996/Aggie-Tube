@@ -21,30 +21,38 @@
   <body>
 
     <!-- Navigation -->
-    <nav class="navbar navbar-expand-lg navbar-dark bg-light fixed-top">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
       <div class="container">
            <a class="navbar-brand" href="/"><img src="../static/img/AggieTube.png" style="max-width: 250px"/></a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+        <button class="navbar-toggler"  type="button" data-toggle="collapse" data-target="#navbarResponsive"
+                aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
         </button>
-        <!--  <div class="collapse navbar-collapse" id="navbarResponsive">
-          <ul class="navbar-nav ml-auto">
+        <div class="collapse navbar-collapse float-right"  id="navbarResponsive">
+          <ul class="navbar-nav ml-auto" >
             <li class="nav-item active">
-              <a class="nav-link" href="#">Home
+              <a class="nav-link" href="/" >Home
                 <span class="sr-only">(current)</span>
               </a>
             </li>
-          <li class="nav-item">
-              <a class="nav-link" href="#">About</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#">Services</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#">Contact</a>
-            </li>
+          {% if not user %}
+               <li class="nav-item">
+                  <a class="nav-link" href="/login" >Login</a>
+               </li>
+          {% else  %}
+               <li class="nav-item">
+                  <a class="nav-link" href="/friends" >{{ user['username']  }}'s Friends</a>
+               </li>
+               <li class="nav-item">
+                  <a class="nav-link" href="/playlists" >{{ user['username']  }}'s Playlists</a>
+               </li>
+
+               <li class="nav-item">
+                  <a class="nav-link" href="/login" >Logout</a>
+               </li>
+          {% endif %}
           </ul>
-        </div>-->
+        </div>
       </div>
     </nav>
 
@@ -111,20 +119,23 @@
 
               {% for video in videos %}
                   <div class="col-lg-4 col-md-6 mb-4">
+                  <form action="/playlist" method="post" >
                       <div class="card h-100">
+                          <input type="text" name="vidId" value="{{ video['id'] }}" hidden>
                         <a href="/play/{{ video['id'] }}">
-                            <img class="card-img-top" src="{{ video['thumbnail'] }}" alt="">
+                            <img class="card-img-top" name="thumbnail" src="{{ video['thumbnail'] }}" alt="">
                             <div class="card-body">
-                              <h5 class="card-title">
+                              <h5 class="card-title" name="title">
                                 {{ video['title'] }}
                               </h5>
-                                <p class="card-text">{{ video['channel'] }}</p>
+                                <p class="card-text" name="channel">{{ video['channel'] }}</p>
                             </div>
                         </a>
-                        <div class="card-footer">
-                          <small class="text-muted">&#9733; &#9733; &#9733; &#9733; &#9734;</small>
-                        </div>
                       </div>
+                      {% if user %}
+                      <button class="btn btn-lg btn-primary btn-block" type="submit">Add to MyFavs</button><br>
+                        {% endif %}
+                  </form>
                   </div>
 
               {% endfor %}
@@ -244,8 +255,9 @@
       </div>
       <!-- /.container -->
     </footer>
+            <!-- Firebase -->
 
-    <!-- Bootstrap core JavaScript -->
+    <script src="https://www.gstatic.com/firebasejs/4.6.1/firebase.js"></script>
     <script src="../static/vendor/jquery/jquery.min.js"></script>
     <script src="../static/vendor/popper/popper.min.js"></script>
     <script src="../static/vendor/bootstrap/js/bootstrap.min.js"></script>

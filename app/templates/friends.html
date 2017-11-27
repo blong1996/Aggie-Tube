@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>AggieTube | {{ user['username']  }}'s Friends</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="../static/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="../static/css/shop-homepage.css" rel="stylesheet">
+
+  </head>
+
+  <body>
+
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+      <div class="container">
+           <a class="navbar-brand" href="/"><img src="../static/img/AggieTube.png" style="max-width: 250px"/></a>
+        <button class="navbar-toggler"  type="button" data-toggle="collapse" data-target="#navbarResponsive"
+                aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse float-right"  id="navbarResponsive">
+          <ul class="navbar-nav ml-auto" >
+            <li class="nav-item ">
+              <a class="nav-link" href="/" >Home
+
+              </a>
+            </li>
+          {% if not user %}
+               <li class="nav-item">
+                  <a class="nav-link" href="/login" >Login</a>
+               </li>
+          {% else  %}
+               <li class="nav-item active">
+                  <a class="nav-link" href="/friends" >{{ user['username']  }}'s Friends
+                      <span class="sr-only">(current)</span></a>
+               </li>
+               <li class="nav-item">
+                  <a class="nav-link" href="/playlists" >{{ user['username']  }}'s Playlists</a>
+               </li>
+
+               <li class="nav-item">
+                  <a class="nav-link" href="/login" >Logout</a>
+               </li>
+          {% endif %}
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Page Content -->
+    <div class="container" style="padding-top: 100px">
+      <div class="row">
+        <div class="col-lg-12">
+            <div class="row">
+
+              {% for friend in friends.each() %}
+                  <div class="col-lg-4 col-md-6 mb-4">
+                      <div class="card h-100">
+                        <a href="/friends/{{ user['username'] }}/{{ friend.val()['username'] }}">
+                            <div class="card-body">
+                              <h5 class="card-title">
+                                {{ friend.val()['username'] }}
+                              </h5>
+                            </div>
+                        </a>
+                      </div>
+                  </div>
+
+              {% endfor %}
+
+          </div>
+          <!-- /.row -->
+
+        </div>
+        <!-- /.col-lg-9 -->
+
+      </div>
+      <!-- /.row -->
+
+    </div>
+    <!-- /.container -->
+
+    <!-- Footer -->
+    <footer class="py-5 bg-dark">
+      <div class="container">
+        <p class="m-0 text-center text-white">Copyright &copy; AggieTube 2017</p>
+      </div>
+      <!-- /.container -->
+    </footer>
+            <!-- Firebase -->
+
+    <script src="https://www.gstatic.com/firebasejs/4.6.1/firebase.js"></script>
+    <script src="../static/vendor/jquery/jquery.min.js"></script>
+    <script src="../static/vendor/popper/popper.min.js"></script>
+    <script src="../static/vendor/bootstrap/js/bootstrap.min.js"></script>
+
+  </body>
+
+</html>
