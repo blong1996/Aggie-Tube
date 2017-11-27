@@ -1,7 +1,6 @@
 # Import flask dependencies
 from flask import Blueprint, render_template, request
-
-from youtube.youtube import get_top_vids
+import youtube.youtube as youtube
 import firebase.firebase as firebase
 
 aggie_tube = Blueprint('app', __name__)
@@ -22,29 +21,39 @@ def friends():
 
 @aggie_tube.route('/', methods=['GET', 'POST'])
 def home():
-    if request.method == 'POST' and request.form['email']:
-        if not firebase.login(request.form['email'], request.form['password']):
-            firebase.createUser(request.form['email'], request.form['password'])
+    try:
+        if request.method == 'POST' and request.form['email']:
+            if not firebase.login(request.form['email'], request.form['password']):
+                firebase.createUser(request.form['email'], request.form['password'])
 
-        videos = get_top_vids('')
-    elif request.method == 'POST' and request.form['query']:
-        videos = get_top_vids(request.form['query'])
-    else:
-        videos = get_top_vids('')
+            videos = youtube.get_top_vids('')
+    except Exception as e:
+        print("Error {}".format(e))
+        try:
+            if request.method == 'POST' and request.form['query']:
+                videos = youtube.get_top_vids(request.form['query'])
+        except Exception as e:
+            print("Error {}".format(e))
+            videos = youtube.get_top_vids('')
+
+    if request.method == 'GET':
+        videos = youtube.get_top_vids('')
     user = firebase.userObj
     return render_template('index.html', videos=videos, user=user)
 
 
 @aggie_tube.route('/<query>', methods=['GET', 'POST'])
 def search(query):
-    videos = get_top_vids(query)
+    videos = youtube.get_top_vids(query)
+    user = firebase.userObj
 
-    return render_template('index.html', videos=videos)
+    return render_template('index.html', videos=videos, user=user)
 
 
 @aggie_tube.route('/play/<string:vidId>', methods=['GET'])
 def play_video(vidId):
-    return render_template('play_video.html', vidId=vidId)
+    user = firebase.userObj
+    return render_template('play_video.html', vidId=vidId, user=user)
 
 
 @aggie_tube.route('/login', methods=['GET'])
@@ -73,18 +82,14 @@ def playlists():
     return render_template('playlists.html', playlists=playlists, user=user)
 
 
-@aggie_tube.route('/playlist', methods=['GET', 'POST'])
-def openList():
+@aggie_tube.route('/playlist/<string:title>', methods=['GET', 'POST'])
+def openList(title):
     user = firebase.userObj
     list = firebase.getPlaylist("MyFav")
 
     if request.method == 'POST':
-        vid_dic = {
-            'title': request.form['title'],
-            'thumbnail': request.form['thumbnail'],
-            'channel': request.form['channel'],
-            'id': request.form['vidId']
-        }
-        firebase.addToFavs(vid_dic)
+        video = youtube.get_video(title)
+        firebase.addToFavs(video)
 
     return render_template('playlist.html', user=user, list=list)
+

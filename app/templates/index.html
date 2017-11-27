@@ -119,7 +119,7 @@
 
               {% for video in videos %}
                   <div class="col-lg-4 col-md-6 mb-4">
-                  <form action="/playlist" method="post" >
+                  <form action="/playlist/{{ video['title'] }}" method="post" >
                       <div class="card h-100">
                           <input type="text" name="vidId" value="{{ video['id'] }}" hidden>
                         <a href="/play/{{ video['id'] }}">

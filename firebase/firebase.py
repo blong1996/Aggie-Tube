@@ -108,7 +108,7 @@ def getPlaylists():
 
 def addToFavs(video):
     refreshUserToken()
-    db.child("users").child(userObj["username"]).child("playlists").child("MyFav").set(video)
+    db.child("users").child(userObj["username"]).child("playlists").child("MyFav").child(video['id']).set(video)
 
 def getPlaylist(playlistName):
     refreshUserToken()

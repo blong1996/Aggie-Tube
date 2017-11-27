@@ -31,6 +31,20 @@ def get_top_vids(query):
     return videos
 
 
+def get_video(title):
+    search = youtube_search(title, 1)
+    vid_dic = {}
+    for vid in search[1]:
+        vid_dic = {
+            'title': vid['snippet']['title'],
+            'thumbnail': vid['snippet']['thumbnails']['high']['url'],
+            'channel': vid['snippet']['channelTitle'],
+            'url': 'https://www.youtube.com/watch?v=' + vid['id']['videoId'],
+            'id': vid['id']['videoId']
+        }
+    return vid_dic
+
+
 def grab_videos(keyword, token=None):
     res = youtube_search(keyword)
     token = res[0]
