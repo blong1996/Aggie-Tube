@@ -4,4 +4,3 @@ google-api-python-client
 gunicorn==19.7.1
 Werkzeug
 pyrebase
-urllib
