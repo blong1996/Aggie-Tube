@@ -108,8 +108,8 @@ def viewUsers():
     user = firebase.userObj
     try:
         for user in users.each():
-
-            return render_template('friends.html', friends=friends, user=user)
+            print(user)
+        return render_template('friends.html', friends=friends, user=user)
     except Exception as e:
         print(e)
         videos = youtube.get_top_vids('')
