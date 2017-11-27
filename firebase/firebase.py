@@ -55,9 +55,11 @@ def createUser(email, password):
     if user:
         username = ""
         for letter in email:
+
             if letter == '@':
                 break
-            username += letter
+            if letter is not '.':
+                username += letter
         user["displayName"] = username
         newUser = {
             "email": email,
@@ -130,3 +132,6 @@ def logout():
     userObj = {}
     user = {}
     print("User has been logged out")
+
+def allUsers():
+    return db.child("users").get()

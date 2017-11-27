@@ -13,8 +13,12 @@ def friends():
     friends = {}
     if user:
         friends = firebase.getFriends()
-    if not friends:
-        friends = {}
+        try:
+            for friend in friends.each():
+                print(friend)
+        except Exception as e:
+            print(e)
+            friends = {}
 
     return render_template('friends.html', friends=friends, user=user)
 
@@ -76,8 +80,12 @@ def playlists():
     playlists = {}
     if user:
         playlists = firebase.getPlaylists()
-    if not playlists:
-        playlists = {}
+        try:
+            for list in playlists.each():
+                print(list)
+        except Exception as e:
+            print(e)
+            playlists = {}
 
     return render_template('playlists.html', playlists=playlists, user=user)
 
@@ -85,11 +93,26 @@ def playlists():
 @aggie_tube.route('/playlist/<string:title>', methods=['GET', 'POST'])
 def openList(title):
     user = firebase.userObj
-    list = firebase.getPlaylist("MyFav")
+
 
     if request.method == 'POST':
         video = youtube.get_video(title)
         firebase.addToFavs(video)
-
+    list = firebase.getPlaylist("MyFav")
     return render_template('playlist.html', user=user, list=list)
+
+
+@aggie_tube.route('/users', methods=['GET'])
+def viewUsers():
+    users = firebase.allUsers()
+    user = firebase.userObj
+    try:
+        for user in users.each():
+
+            return render_template('friends.html', friends=friends, user=user)
+    except Exception as e:
+        print(e)
+        videos = youtube.get_top_vids('')
+        return render_template('index.html', videos=videos, user=user)
+
 
