@@ -2516,6 +2516,7 @@ input[type="button"].btn-block {
 
 .collapse {
   display: none;
+  color: black;
 }
 
 .collapse.show {
@@ -3310,6 +3311,7 @@ tbody.collapse.show {
       flex-basis: 100%;
   -ms-flex-align: center;
       align-items: center;
+  color: black;
 }
 
 .navbar-toggler {

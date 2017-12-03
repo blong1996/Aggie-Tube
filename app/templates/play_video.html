@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>AggieTube</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="../static/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="../static/css/shop-homepage.css" rel="stylesheet">
+
+  </head>
+
+  <body>
+
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+      <div class="container">
+           <a class="navbar-brand" href="/"><img src="../static/img/AggieTube.png" style="max-width: 250px"/></a>
+        <button class="navbar-toggler"  type="button" data-toggle="collapse" data-target="#navbarResponsive"
+                aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse float-right"  id="navbarResponsive">
+          <ul class="navbar-nav ml-auto" >
+            <li class="nav-item active">
+              <a class="nav-link" href="/" >Home
+                <span class="sr-only">(current)</span>
+              </a>
+            </li>
+          {% if not user %}
+               <li class="nav-item">
+                  <a class="nav-link" href="/login" >Login</a>
+               </li>
+          {% else  %}
+               <li class="nav-item">
+                  <a class="nav-link" href="/friends" >{{ user['username']  }}'s Friends</a>
+               </li>
+               <li class="nav-item">
+                  <a class="nav-link" href="/playlists" >{{ user['username']  }}'s Playlists</a>
+               </li>
+
+               <li class="nav-item">
+                  <a class="nav-link" href="/login" >Logout</a>
+               </li>
+          {% endif %}
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Page Content -->
+    <div class="container" style="padding-top: 100px">
+      <div class="row">
+
+
+        <div class="col-lg-12">
+
+            <div class="row" style="padding-bottom: 45px; margin: 0 auto">
+            <div class="col-lg-12">
+                <form action="/" method="post">
+                    <div class="input-group">
+                      <input type="text" name="query" class="form-control" placeholder="Search for...">
+                      <span class="input-group-btn">
+                        <button class="btn btn-secondary" type="submit" >Search!</button>
+                      </span>
+                    </div>
+                </form>
+              </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-12" style="padding-top: 50px; padding-bottom: 75px; padding-left: 70px; padding-right: 70px">
+                    <!-- 1. The <iframe> (and video player) will replace this <div> tag. -->
+                    <div id="player"></div>
+                </div>
+            </div>
+          <!-- /.row -->
+        </div>
+        <!-- /.col-lg-9 -->
+      </div>
+      <!-- /.row -->
+    </div>
+    <!-- /.container -->
+
+    <!-- Footer -->
+    <footer class="py-5 bg-dark">
+      <div class="container">
+        <p class="m-0 text-center text-white">Copyright &copy; AggieTube 2017</p>
+      </div>
+      <!-- /.container -->
+    </footer>
+
+    <!-- Bootstrap core JavaScript -->
+    <script src="../static/vendor/jquery/jquery.min.js"></script>
+    <script src="../static/vendor/popper/popper.min.js"></script>
+    <script src="../static/vendor/bootstrap/js/bootstrap.min.js"></script>
+    <script>
+      // 2. This code loads the IFrame Player API code asynchronously.
+      var tag = document.createElement('script');
+
+      tag.src = "https://www.youtube.com/iframe_api";
+      var firstScriptTag = document.getElementsByTagName('script')[0];
+      firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+
+      // 3. This function creates an <iframe> (and YouTube player)
+      //    after the API code downloads.
+      var player;
+      function onYouTubeIframeAPIReady() {
+        player = new YT.Player('player', {
+          height: '600',
+          width: '100%',
+          videoId: '{{ vidId }}',
+          events: {
+            'onReady': onPlayerReady,
+            'onStateChange': onPlayerStateChange
+          }
+        });
+      }
+
+      // 4. The API will call this function when the video player is ready.
+      function onPlayerReady(event) {
+        event.target.playVideo();
+      }
+
+      // 5. The API calls this function when the player's state changes.
+      //    The function indicates that when playing a video (state=1),
+      //    the player should play for six seconds and then stop.
+      var done = false;
+      function onPlayerStateChange(event) {
+        if (event.data == YT.PlayerState.PLAYING && !done) {
+          setTimeout(stopVideo, 6000);
+          done = true;
+        }
+      }
+      function stopVideo() {
+        player.stopVideo();
+      }
+    </script>
+  </body>
+
+</html>
