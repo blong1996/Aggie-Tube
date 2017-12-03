@@ -43,7 +43,8 @@ def login(email, password):
 def refreshUserToken():
     # before the 1 hour expiry:
     global user
-    user = auth.refresh(user['refreshToken'])
+    if user:
+        user = auth.refresh(user['refreshToken'])
 
 
 def createUser(email, password):
@@ -86,35 +87,42 @@ def currentUser():
 
 def getAccountInfo():
     refreshUserToken()
-    return auth.get_account_info(user['idToken'])
+    if userObj:
+        return auth.get_account_info(user['idToken'])
 
 
 def getFriends():
     refreshUserToken()
-    friends = db.child("users").child(userObj["username"]).child("friends").get()
-    return friends
+    if userObj:
+        friends = db.child("users").child(userObj["username"]).child("friends").get()
+        return friends
 
 def addFriend(friend):
     refreshUserToken()
-    db.child("users").child(userObj["username"]).child("friends").child(friend['username']).set(friend)
+    if userObj:
+        db.child("users").child(userObj["username"]).child("friends").child(friend['username']).set(friend)
 
 def getFriend(friendName):
     refreshUserToken()
-    return db.child("users").child(userObj["username"]).child("friends").child(friendName).get()
+    if userObj:
+        return db.child("users").child(userObj["username"]).child("friends").child(friendName).get()
 
 
 def getPlaylists():
     refreshUserToken()
-    return db.child("users").child(userObj["username"]).child("playlists").get()
+    if userObj:
+        return db.child("users").child(userObj["username"]).child("playlists").get()
 
 
 def addToFavs(video):
     refreshUserToken()
-    db.child("users").child(userObj["username"]).child("playlists").child("MyFav").child(video['id']).set(video)
+    if userObj:
+        db.child("users").child(userObj["username"]).child("playlists").child("MyFav").child(video['id']).set(video)
 
 def getPlaylist(playlistName):
     refreshUserToken()
-    return db.child("users").child(userObj["username"]).child("playlists").child(playlistName).get()
+    if userObj:
+        return db.child("users").child(userObj["username"]).child("playlists").child(playlistName).get()
 
 
 
